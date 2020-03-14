@@ -1,0 +1,32 @@
+FROM ubuntu:18.04
+
+MAINTAINER morkid <morkid@gmail.com>
+
+ENV container=docker \
+    LC_ALL=C \
+    DEBIAN_FRONTEND=noninteractive \
+    TZ=Asia/Jakarta
+
+
+RUN rm -f /lib/systemd/system/multi-user.target.wants/* \
+    /etc/systemd/system/*.wants/* \
+    /lib/systemd/system/local-fs.target.wants/* \
+    /lib/systemd/system/sockets.target.wants/*udev* \
+    /lib/systemd/system/sockets.target.wants/*initctl* \
+    /lib/systemd/system/sysinit.target.wants/systemd-tmpfiles-setup* \
+    /lib/systemd/system/systemd-update-utmp*; \
+    apt-get update; \
+    apt install -y --no-install-recommends systemd nano openssh-server; \
+    apt-get clean; \
+    find /var/cache/apt/archives/ -type f -delete; \
+    find /var/lib/apt/lists/ -type f -delete; \
+    rm -rf /tmp/* /var/tmp/*; \
+    systemctl enable ssh; \
+    sed -i 's|^PasswordAuthentication yes|PasswordAuthentication no|g' /etc/ssh/sshd_config; \
+    sed -i 's|^#Banner none|Banner none|g' /etc/ssh/sshd_config; \
+    ssh-keygen -q -N '' -f /root/.ssh/root.pem; \
+    mv /root/.ssh/root.pem.pub /root/.ssh/authorized_keys
+
+EXPOSE 22
+VOLUME [ "/sys/fs/cgroup" ]
+CMD ["/lib/systemd/systemd"]

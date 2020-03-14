@@ -4,8 +4,7 @@ MAINTAINER morkid <morkid@gmail.com>
 
 ENV container=docker \
     LC_ALL=C \
-    DEBIAN_FRONTEND=noninteractive \
-    TZ=Asia/Jakarta
+    DEBIAN_FRONTEND=noninteractive
 
 
 RUN rm -f /lib/systemd/system/multi-user.target.wants/* \

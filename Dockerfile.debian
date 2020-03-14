@@ -4,9 +4,8 @@ MAINTAINER morkid <morkid@gmail.com>
 
 ENV container=docker \
     LC_ALL=C \
-    DEBIAN_FRONTEND=noninteractive \
-    TZ=Asia/Jakarta
-RUN sed -i 's|//.*.debian.org|//kartolo.sby.datautama.net.id|g' /etc/apt/sources.list
+    DEBIAN_FRONTEND=noninteractive
+# RUN sed -i 's|//.*.debian.org|//kartolo.sby.datautama.net.id|g' /etc/apt/sources.list
 
 RUN rm -f /lib/systemd/system/multi-user.target.wants/* \
     /etc/systemd/system/*.wants/* \
